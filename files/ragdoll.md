@@ -1,0 +1,2 @@
+El ragdoll (en inglés literalmente "muñeca de trapo") es una raza de gato originaria de Inglaterra, característica por su gran docilidad. Los ragdolls adoran a sus dueños humanos1​ y no les gusta estar solos. Mutaciones naturales y cruzamientos selectivos forzados entre razas muy domésticas como el siamés, el persa y el Sagrado de Birmania han privado a este gato de cualquier instinto de caza, alerta o defensa. Reacciona poco al peligro, se muestra dócil y tranquilo. Es un gato exclusivamente casero y dependiente.
+[Raza ragdoll](https://es.wikipedia.org/wiki/Ragdoll)

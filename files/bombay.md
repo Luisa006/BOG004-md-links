@@ -1,0 +1,1 @@
+El gato Bombay es un gato doméstico de tamaño mediano, resultado del cruzamiento entre el Burmés y el American shorthair.
