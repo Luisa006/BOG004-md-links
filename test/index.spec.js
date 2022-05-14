@@ -1,15 +1,11 @@
 const mdlinks = require('../index.js');
-const readFiles = require('../index.js');
+// const readFiles = require('../index.js');
+const chalk = require('chalk');
 const path = './test/pruebasTest/archivo1.md';
-
 describe('mdLinks', () => {
   it('should be a function', () => {
     expect(typeof mdlinks).toBe('function');
   });
-  /*it('should return a promise', (done) => {
-    // jest.setTimeout(30000);
-    expect(readFiles(path) instanceof Promise).toBeTruthy()
-  });*/
   it('should return validate: false ', (done) => {
     mdlinks(path, {}).then((result) => {
       const expected = [
@@ -36,14 +32,14 @@ describe('mdLinks', () => {
           text: 'Node.js',
           file: 'C:\\Users\\Usuario\\Desktop\\MD links\\BOG004-md-links\\test\\pruebasTest\\archivo1.md',
           status: 200,
-          result: 'OK'
+          result: '✅ OK ✅'
         },
         {
           href: 'https://developer.mozilla.org/es/docs/Learn/JavaScript/Building_blocks/Functions',
           text: 'Funciones — bloques de código reutilizables - MDN',
           file: 'C:\\Users\\Usuario\\Desktop\\MD links\\BOG004-md-links\\test\\pruebasTest\\archivo1.md',
           status: 404,
-          result: 'FAIL'
+          result: '🚨 FAIL 🚨'
         }
       ];
       expect(result).toEqual(expected)
@@ -66,18 +62,26 @@ describe('mdLinks', () => {
   });
   it('should return error mdlinks ', (done) => {
     mdlinks(('./pruebasTest/archivo3.md'), {}).catch((result) => {
-      const expected = 'La ruta no es valida';
+      const expected = chalk.redBright.bold(`
+      ███████╗██████╗░██████╗░░█████╗░██████╗░
+      ██╔════╝██╔══██╗██╔══██╗██╔══██╗██╔══██╗
+      █████╗░░██████╔╝██████╔╝██║░░██║██████╔╝
+      ██╔══╝░░██╔══██╗██╔══██╗██║░░██║██╔══██╗
+      ███████╗██║░░██║██║░░██║╚█████╔╝██║░░██║
+      ╚══════╝╚═╝░░╚═╝╚═╝░░╚═╝░╚════╝░╚═╝░░╚═╝
+      Encontramos un error: La ruta o el archivo no es válido.
+      `);
       expect(result).toEqual(expected)
       done();
     });
   });
 });
-describe('readfiles', () => {
-  it('should return error readFiles ', (done) => {
-    readFiles(('./pruebasTest/text.txt'), {}).catch((result) => {
-      const expected = 'La ruta no es valida';
-      expect(result).toEqual(expected)
-      done();
-    });
-  });
-});
+// describe('readfiles', () => {
+//   it('should return error readFiles ', (done) => {
+//     readFiles(('./pruebasTest/text.txt'), {}).catch((result) => {
+//       const expected = 'La ruta no es valida';
+//       expect(result).toEqual(expected)
+//       done();
+//     });
+//   });
+// });

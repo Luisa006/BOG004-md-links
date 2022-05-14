@@ -2,17 +2,15 @@ const { error } = require("console");
 const fs = require("fs");
 const { resolve } = require("path");
 const path = require("path");
-// const { openStdin } = require("process");
 const process = require("process");
 const { default: fetch } = require("node-fetch");
-
-// mdlinks(route);
+const chalk = require('chalk');
+// ruta con process.arg
 const route = process.argv[2];
 // Verifica si la ruta es absoluta, y si no la convierte
 const pathAbsolute = (route) => path.isAbsolute(route) ? route : path.resolve(route);
 // Verifica si la extension es MD
 const fileMD = (route) => path.extname(route) === '.md' ? route : "";//"Archivo no compatible con la busqueda";
-
 //----------si es archivo o directorio?--------------
 const identify = (route) => {
   let files = []
@@ -33,7 +31,6 @@ const identify = (route) => {
     });
   })
 };
-
 //---- leer un archivo----
 const readFiles = (route) => {
   return new Promise((resolve, reject) => {
@@ -44,7 +41,6 @@ const readFiles = (route) => {
       .catch(() => reject('Error en la lectura del archivo'))
   });
 };
-
 //
 const getLinks = (arrayMD) => {
   return new Promise((resolve, reject) => {
@@ -58,7 +54,12 @@ const getLinks = (arrayMD) => {
     })
   })
 }
-
+// const getLinks = (arrayMD) => {
+//   return new Promise((resolve, reject) => {
+//      Promise.all(arrayMD.map((md) => getObjects(md)))
+//       .then(response => resolve(response))
+//  })
+// }
 //Funcion de extrear links
 const getObjects = (file) => {
   return new Promise((resolve, reject) => {
@@ -80,13 +81,20 @@ const getObjects = (file) => {
           })
           resolve(arrContentObj)
         } else {
-          console.log('no hay links');
+          console.log(chalk.yellowBright.bold(`
+          ███▀▀▀▀███████████████
+          ██░░░░░▄██████████████
+          █▌░░░░████░░██░░██░░██
+          ██░░░░░▀██████████████
+          ███▄▄▄▄███████████████
+    Ups, no hemos encontrado ningún enlace en
+    ${file}
+          `));
         }
       })
       .catch((error) => console.log(error));
   })
 }
-
 //----- lee un directorio/ funcion recursiva---
 const recursion = (route) => {
   let newArr = [];
@@ -110,21 +118,22 @@ const recursion = (route) => {
   });
   return newArr;
 };
+//Función de stats
 const statsLinks = (res) => {
   return {
     total: res.length,
     unique: new Set(res.map(({ href }) => href)).size,
   }
 }
+//Función de stats y validate
 const statsBrokens = (res) => {
-  const brokens = res.filter(link => link.result === 'FAIL').length
+  const brokens = res.filter(link => link.result === '🚨 FAIL 🚨').length
   return {
     total: res.length,
     unique: new Set(res.map(({ href }) => href)).size,
     broken: brokens
   }
 }
-
 // Validacion http
 const validateHttp = (arr) => {
   const arrValidate = arr.map((link) => {
@@ -132,11 +141,11 @@ const validateHttp = (arr) => {
       .then((response) => {
         if (response.status >= 200 && response.status <= 399) {
           link.status = response.status,
-            link.result = 'OK'
+          link.result = '✅ OK ✅'
           return link
         } else if (response.status >= 400 && response.status <= 499) {
           link.status = response.status,
-            link.result = 'FAIL'
+          link.result = '🚨 FAIL 🚨'
           return link
         }
       })
@@ -144,12 +153,11 @@ const validateHttp = (arr) => {
   })
   return Promise.all(arrValidate)
 }
-
-// función mdlinks -------
+//Función de mdlinks
 const mdlinks = (path, options) => {
   return new Promise((resolve, reject) => {
     identify(pathAbsolute(path))
-      .then((response) => getLinks(response))
+      .then((response) => getLinks(response.flat()))
       .then((resp) => {
         if (!options.validate && !options.stats) {
           resolve(resp)
@@ -166,11 +174,19 @@ const mdlinks = (path, options) => {
           resolve(stats);
         }
       })
-      .catch((error) => reject('La ruta no es valida'))
+      .catch((error) => reject(chalk.redBright.bold(`
+      ███████╗██████╗░██████╗░░█████╗░██████╗░
+      ██╔════╝██╔══██╗██╔══██╗██╔══██╗██╔══██╗
+      █████╗░░██████╔╝██████╔╝██║░░██║██████╔╝
+      ██╔══╝░░██╔══██╗██╔══██╗██║░░██║██╔══██╗
+      ███████╗██║░░██║██║░░██║╚█████╔╝██║░░██║
+      ╚══════╝╚═╝░░╚═╝╚═╝░░╚═╝░╚════╝░╚═╝░░╚═╝
+      Encontramos un error: La ruta o el archivo no es válido.
+      `)))
   })
 }
+//Exportando funciones
 module.exports = mdlinks, readFiles;
-
 
 
 
