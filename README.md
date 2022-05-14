@@ -58,7 +58,7 @@ Para utilizar esta librería puedes ejecutar los siguientes comandos:
 ## 6. Tecnologias utilizadas 🛠️
 
 * [Node](https://nodejs.org/es/) - Utilizado para ejecutar javascript en consola
-* [Lucid.app](https://lucid.app/es-LA/users/login#/login?clearStorage=true) - Utilizado para la creación del diagrama de flujo
+* [Figma](https://www.figma.com/file/xCHW5aQi2GsUK80YW8RxdG/Diagrama-de-flujo-md-links?node-id=0%3A1) - Utilizado para la creación del diagrama de flujo
 * [JAVASCRIPT](https://developer.mozilla.org/es/docs/Web/JavaScript) - Lenguaje de programación
 * [GitHub](https://github.com/)- Usado guardar el repositorio del proyecto
 
